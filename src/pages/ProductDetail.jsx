@@ -70,12 +70,12 @@ const ProductDetail = () => {
     const fetchProduct = async () => {
       try {
         setLoading(true)
-        const res = await fetch(`http://localhost:5000/api/products/${id}`)
+        const res = await fetch(`/api/products/${id}`)
         const data = await res.json()
         setProduct(data)
 
         // Fetch related products (same region)
-        const allRes = await fetch(`http://localhost:5000/api/products?region=${data.region}`)
+        const allRes = await fetch(`/api/products?region=${data.region}`)
         const allData = await allRes.json()
         const filtered = Array.isArray(allData)
           ? allData.filter(p => p._id !== id).slice(0, 3)

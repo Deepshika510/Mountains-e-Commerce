@@ -89,7 +89,7 @@ const Products = () => {
         if (selectedMaterial !== 'All') params.append('material', selectedMaterial)
         if (search) params.append('search', search)
 
-        const res = await fetch(`http://localhost:5000/api/products?${params}`)
+        const res = await fetch(`/api/products?${params}`)
         const data = await res.json()
         setProducts(Array.isArray(data) ? data : [])
         setCurrentPage(1)
