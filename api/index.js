@@ -237,6 +237,23 @@ export default async function handler(req, res) {
     }
     return res.status(405).json({ message: 'Method not allowed' })
   }
+  // ─── FIX IMAGES (one-time migration) ───
+  if (resource === 'fix-images') {
+    try {
+      const products = await Product.find({})
+      let modifiedCount = 0
+      for (const product of products) {
+        if (product.image && product.image.includes('http://localhost:5000')) {
+          product.image = product.image.replace('http://localhost:5000', '')
+          await product.save()
+          modifiedCount++
+        }
+      }
+      return res.json({ message: 'Images fixed', modifiedCount })
+    } catch (error) {
+      return res.status(500).json({ message: 'Server error', error: error.message })
+    }
+  }
 
   return res.status(404).json({ message: 'Route not found' })
 }
